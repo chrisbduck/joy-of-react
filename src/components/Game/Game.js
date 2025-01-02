@@ -5,14 +5,16 @@ import { WORDS } from "../../data";
 import { Board } from "../Board";
 import { GuessInput } from "../GuessInput";
 import { Banner } from "../Banner";
+import { RestartButton } from "../RestartButton";
 import { NUM_GUESSES_ALLOWED } from "../../constants";
 import { Keyboard } from "../Keyboard";
 import { checkGuess } from "../../game-helpers";
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
+const initAnswer = () => {
+	const answer = sample(WORDS);
+	console.info({ answer });
+	return answer;
+};
 
 const initGuesses = () => {
 	const guesses = [];
@@ -23,6 +25,7 @@ const initGuesses = () => {
 };
 
 function Game() {
+	const [answer, setAnswer] = React.useState(initAnswer);
 	const [guesses, setGuesses] = React.useState(initGuesses);
 	const [numGuesses, setNumGuesses] = React.useState(0);
 	const [gameState, setGameState] = React.useState("active");
@@ -50,12 +53,21 @@ function Game() {
 		else if (newNumGuesses === NUM_GUESSES_ALLOWED) setGameState("lost");
 	};
 
+	const restartGame = () => {
+		setAnswer(initAnswer());
+		setGuesses(initGuesses());
+		setNumGuesses(0);
+		setGameState("active");
+		setLetterResults({});
+	};
+
 	return (
 		<>
+			<RestartButton onClick={restartGame} isEnabled={numGuesses > 0} />
 			<Board guesses={guesses} answer={answer} />
 			<GuessInput submitGuess={submitGuess} gameState={gameState} />
-			<Banner gameState={gameState} numGuesses={numGuesses} answer={answer} />
 			<Keyboard letterResults={letterResults} />
+			<Banner gameState={gameState} numGuesses={numGuesses} answer={answer} />
 		</>
 	);
 }

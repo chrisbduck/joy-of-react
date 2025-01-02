@@ -237,6 +237,23 @@ h1 {
   border: 0;
 }
 
+.restart-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.restart-button {
+  background: var(--color-gray-700);
+  border: 2px var(--color-gray-900) solid;
+  color: black;
+  padding: 0px 4px;
+}
+.restart-button:disabled {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-300);
+}
+
 /*
   Modal styles
 

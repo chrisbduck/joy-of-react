@@ -13,9 +13,11 @@ export function GuessInput({ submitGuess, gameState }) {
 			<label htmlFor="guess-input">Guess a five-letter word:</label>
 			<input
 				id="guess-input"
+				required
 				type="text"
 				value={text}
 				pattern="[a-zA-Z]{5}"
+				title="Please enter a five-letter word."
 				onChange={event => setText(event.target.value.toUpperCase())}
 				disabled={gameState !== "active"}
 			/>
